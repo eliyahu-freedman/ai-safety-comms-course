@@ -1,0 +1,653 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Twenty-Two Words</title>
+  <meta name="description" content="A 25-hour, five-unit course in AI safety communications. Every unit ends in a published artifact; the revision is graded, not the draft. Course specification, draft v1.">
+  <meta name="author" content="Eliyahu Freedman">
+  <meta property="og:title" content="Twenty-Two Words">
+  <meta property="og:description" content="A 25-hour, five-unit course in AI safety communications. Every unit ends in a published artifact; the revision is graded, not the draft. Course specification, draft v1.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2314181c'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='19' font-weight='700' fill='%23d9a400' text-anchor='middle'%3E22%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap">
+  <style>
+    :root{color-scheme:light dark}
+    *,*::before,*::after{box-sizing:border-box}
+    html{-webkit-text-size-adjust:100%}
+    body{margin:0;padding:0}
+    img{max-width:100%;height:auto}
+    [hidden]{display:none!important}
+  </style>
+  <style>
+:root{
+  --ground:#eceef0;
+  --surface:#f8f9fa;
+  --surface-2:#e3e6e9;
+  --ink:#14181c;
+  --ink-2:#4c565f;
+  --ink-3:#6d7982;
+  --rule:#cfd5da;
+  --rule-strong:#9fabb4;
+  --amber:#a97c00;
+  --amber-mark:#d9a400;
+  --amber-wash:#f2e2ad;
+  --focus:#14181c;
+
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --body:"Newsreader",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+
+  --wrap:1120px;
+  --prose:66ch;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#14171a;
+    --surface:#1b1f23;
+    --surface-2:#242a2f;
+    --ink:#eef1f3;
+    --ink-2:#b0bac2;
+    --ink-3:#8c979f;
+    --rule:#2f363c;
+    --rule-strong:#4a545c;
+    --amber:#e8b93f;
+    --amber-mark:#e0ad2a;
+    --amber-wash:#4a3c12;
+    --focus:#e8b93f;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#14171a;
+  --surface:#1b1f23;
+  --surface-2:#242a2f;
+  --ink:#eef1f3;
+  --ink-2:#b0bac2;
+  --ink-3:#8c979f;
+  --rule:#2f363c;
+  --rule-strong:#4a545c;
+  --amber:#e8b93f;
+  --amber-mark:#e0ad2a;
+  --amber-wash:#4a3c12;
+  --focus:#e8b93f;
+}
+
+*{box-sizing:border-box;}
+body{
+  background:var(--ground);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:17px;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 28px;}
+.prose{max-width:var(--prose);}
+p{margin:0 0 1em;}
+a{color:var(--ink);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;text-decoration-color:var(--rule-strong);}
+a:hover{text-decoration-color:var(--amber-mark);}
+a:focus-visible,button:focus-visible{outline:2px solid var(--focus);outline-offset:3px;}
+h1,h2,h3,h4{font-family:var(--display);font-weight:600;text-wrap:balance;margin:0;letter-spacing:-0.015em;}
+
+.eyebrow{
+  font-family:var(--mono);font-size:11.5px;font-weight:500;
+  letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-3);
+}
+
+/* ---------- masthead ---------- */
+.masthead{border-bottom:1px solid var(--rule);background:var(--surface);}
+.masthead-in{
+  max-width:var(--wrap);margin:0 auto;padding:14px 28px;
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 20px;
+}
+.mark{font-family:var(--display);font-weight:700;font-size:16px;letter-spacing:-0.02em;}
+.mark span{color:var(--amber);}
+.masthead .eyebrow{margin-inline-start:auto;}
+
+/* ---------- hero ---------- */
+.hero{padding:74px 0 12px;}
+.hero h1{
+  font-size:clamp(40px,7.2vw,78px);line-height:0.98;font-weight:700;
+  letter-spacing:-0.035em;margin:16px 0 0;max-width:11ch;
+}
+.hero .hook{
+  font-size:clamp(19px,2.1vw,23px);line-height:1.45;color:var(--ink-2);
+  max-width:52ch;margin:22px 0 0;
+}
+.hero .hook b{color:var(--ink);font-weight:600;}
+
+.ledger{
+  display:flex;flex-wrap:wrap;gap:0;margin:38px 0 0;
+  border-top:2px solid var(--ink);border-bottom:1px solid var(--rule);
+}
+.ledger div{
+  flex:1 1 150px;padding:14px 18px 15px;border-inline-end:1px solid var(--rule);
+}
+.ledger div:last-child{border-inline-end:0;}
+.ledger dt{font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-3);}
+.ledger dd{
+  margin:5px 0 0;font-family:var(--display);font-weight:600;font-size:21px;
+  letter-spacing:-0.02em;font-variant-numeric:tabular-nums;
+}
+
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin:30px 0 0;align-items:center;}
+.btn{
+  display:inline-block;font-family:var(--display);font-weight:600;font-size:15px;
+  padding:11px 22px;border-radius:2px;text-decoration:none;
+  background:var(--ink);color:var(--ground);border:1px solid var(--ink);
+}
+.btn:hover{background:transparent;color:var(--ink);}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--rule-strong);}
+.btn.ghost:hover{border-color:var(--ink);}
+.cta-note{font-family:var(--mono);font-size:12px;color:var(--ink-3);}
+
+/* ---------- section furniture ---------- */
+section{padding:56px 0;border-top:1px solid var(--rule);margin-top:56px;}
+section.tight{padding-bottom:34px;}
+.sec-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 18px;margin-bottom:26px;}
+.sec-head h2{font-size:clamp(25px,3.3vw,34px);letter-spacing:-0.025em;}
+.sec-head .eyebrow{margin-inline-start:auto;}
+.lede{font-size:19px;color:var(--ink-2);max-width:var(--prose);margin:0 0 26px;}
+
+/* ---------- deliverables ---------- */
+.deliverables{list-style:none;padding:0;margin:0;display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);}
+.deliverables li{background:var(--surface);padding:18px 20px;display:flex;gap:18px;align-items:baseline;}
+.deliverables .n{font-family:var(--mono);font-size:12px;color:var(--amber);font-weight:600;flex:0 0 auto;}
+.deliverables b{font-family:var(--display);font-weight:600;}
+
+/* ---------- chain ---------- */
+.chain{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);}
+@media(min-width:900px){.chain{grid-template-columns:repeat(5,1fr);}}
+.chain .step{background:var(--surface);padding:16px 16px 18px;display:flex;flex-direction:column;gap:6px;}
+.chain .step .u{font-family:var(--mono);font-size:11px;letter-spacing:0.1em;color:var(--ink-3);text-transform:uppercase;}
+.chain .step .act{font-family:var(--display);font-weight:600;font-size:15.5px;line-height:1.25;}
+.chain .step .out{font-size:14.5px;color:var(--ink-2);line-height:1.4;}
+.chain .step .out::before{content:"→ ";color:var(--amber);}
+.chain .step.graded{background:var(--amber-wash);}
+.chain .step.graded .out{color:var(--ink);}
+.chain-note{font-family:var(--mono);font-size:12px;color:var(--ink-3);margin-top:10px;}
+
+/* ---------- units ---------- */
+.unit{
+  display:grid;gap:6px 34px;padding:30px 0;border-top:1px solid var(--rule);
+  grid-template-columns:1fr;
+}
+@media(min-width:880px){.unit{grid-template-columns:170px 1fr;}}
+.unit:first-of-type{border-top:2px solid var(--ink);}
+.unit .rail{display:flex;flex-direction:column;gap:9px;}
+.unit .num{font-family:var(--display);font-weight:700;font-size:38px;line-height:1;letter-spacing:-0.04em;color:var(--rule-strong);font-variant-numeric:tabular-nums;}
+.budget{font-family:var(--mono);font-size:11.5px;line-height:1.75;color:var(--ink-3);border-top:1px solid var(--rule);padding-top:8px;}
+.budget b{color:var(--ink-2);font-weight:500;}
+.unit h3{font-size:26px;letter-spacing:-0.025em;}
+.unit .promise{font-style:italic;color:var(--amber);margin:4px 0 12px;font-size:16.5px;}
+.unit p{max-width:var(--prose);}
+.slot{margin:14px 0 0;padding-inline-start:14px;border-inline-start:2px solid var(--rule);max-width:var(--prose);}
+.slot .lbl{font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:3px;}
+.slot.case{border-inline-start-color:var(--amber-mark);}
+.slot p{margin:0;font-size:16px;}
+.q{color:var(--ink-2);}
+.q b{color:var(--ink);font-weight:600;}
+
+/* ---------- run sheet ---------- */
+.runsheet{border:1px solid var(--rule);background:var(--surface);}
+.runsheet .row{display:grid;grid-template-columns:104px 1fr;gap:0;border-top:1px solid var(--rule);}
+.runsheet .row:first-child{border-top:0;}
+.runsheet .t{
+  font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums;
+  padding:13px 14px;color:var(--ink);background:var(--surface-2);
+  border-inline-end:1px solid var(--rule);white-space:nowrap;
+}
+.runsheet .row.chip .t{background:var(--amber-wash);color:var(--ink);font-weight:600;}
+.runsheet .d{padding:13px 16px;}
+.runsheet .d b{font-family:var(--display);font-weight:600;}
+.runsheet .d span{display:block;color:var(--ink-2);font-size:15px;}
+.pull{
+  border-inline-start:2px solid var(--amber-mark);padding:4px 0 4px 16px;margin:22px 0 0;
+  font-size:17px;color:var(--ink-2);max-width:var(--prose);
+}
+.pull cite{display:block;font-family:var(--mono);font-style:normal;font-size:11.5px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3);margin-top:7px;}
+
+/* ---------- protocol ---------- */
+.protocol{counter-reset:p;list-style:none;padding:0;margin:0;max-width:var(--prose);}
+.protocol li{counter-increment:p;position:relative;padding:0 0 14px 40px;}
+.protocol li::before{
+  content:counter(p);position:absolute;inset-inline-start:0;top:1px;
+  font-family:var(--mono);font-size:11px;font-weight:600;color:var(--amber);
+  border:1px solid var(--rule-strong);border-radius:50%;
+  width:24px;height:24px;display:grid;place-items:center;
+}
+.protocol b{font-family:var(--display);font-weight:600;}
+
+/* ---------- evidence / chart ---------- */
+.figure{border:1px solid var(--rule);background:var(--surface);padding:22px 22px 18px;max-width:640px;}
+.figure h4{font-size:16px;margin-bottom:3px;}
+.figure .sub{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);letter-spacing:0.04em;margin-bottom:18px;}
+.bars{display:flex;flex-direction:column;gap:12px;}
+.bar{display:grid;grid-template-columns:104px 1fr auto;align-items:center;gap:12px;}
+.bar .k{font-size:14.5px;color:var(--ink-2);}
+.bar .track{height:14px;background:var(--surface-2);position:relative;}
+.bar .fill{
+  height:100%;background:var(--amber-mark);border-radius:0 3px 3px 0;
+  box-shadow:0 0 0 2px var(--surface);
+}
+.bar .v{font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums;color:var(--ink);}
+.bar:hover .k{color:var(--ink);}
+.bar .track::after{
+  content:attr(data-share);position:absolute;inset-inline-start:0;top:-26px;
+  font-family:var(--mono);font-size:11px;background:var(--ink);color:var(--ground);
+  padding:2px 6px;opacity:0;pointer-events:none;transition:opacity .12s;white-space:nowrap;
+}
+.bar:hover .track::after,.bar:focus-within .track::after{opacity:1;}
+.figure .src{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:16px;line-height:1.6;}
+
+.stats{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:26px;}
+@media(min-width:760px){.stats{grid-template-columns:repeat(3,1fr);}}
+.stats .s{background:var(--surface);padding:18px 20px;}
+.stats .big{font-family:var(--display);font-weight:700;font-size:34px;letter-spacing:-0.03em;line-height:1;font-variant-numeric:tabular-nums;}
+.stats .cap{font-size:15px;color:var(--ink-2);margin-top:8px;}
+.stats .src{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);margin-top:9px;}
+
+/* ---------- table ---------- */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--rule);}
+table{border-collapse:collapse;width:100%;min-width:620px;background:var(--surface);}
+th,td{text-align:start;padding:12px 16px;border-top:1px solid var(--rule);vertical-align:top;font-size:15.5px;}
+thead th{
+  border-top:0;font-family:var(--mono);font-size:11px;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--ink-3);font-weight:500;background:var(--surface-2);
+}
+td:nth-child(2){font-family:var(--display);font-weight:600;}
+td:nth-child(3){color:var(--ink-2);}
+
+/* ---------- rules ---------- */
+.rules{list-style:none;padding:0;margin:0;counter-reset:r;max-width:var(--prose);}
+.rules li{counter-increment:r;border-top:1px solid var(--rule);padding:15px 0;display:flex;gap:16px;}
+.rules li::before{content:"R" counter(r);font-family:var(--mono);font-size:12px;color:var(--amber);flex:0 0 auto;padding-top:3px;}
+.rules b{font-family:var(--display);font-weight:600;}
+
+/* ---------- checklist ---------- */
+.check{list-style:none;padding:0;margin:0;max-width:var(--prose);}
+.check li{padding:9px 0 9px 26px;position:relative;border-top:1px solid var(--rule);font-size:16px;color:var(--ink-2);}
+.check li::before{content:"☐";position:absolute;inset-inline-start:0;color:var(--amber);font-family:var(--mono);}
+
+/* ---------- colophon ---------- */
+.colophon{border-top:2px solid var(--ink);margin-top:56px;padding:26px 0 64px;font-family:var(--mono);font-size:12px;line-height:1.85;color:var(--ink-3);}
+.colophon strong{color:var(--ink-2);font-weight:500;}
+
+
+/* ---------- hero statement ---------- */
+.statement{margin:26px 0 0;padding:0;border-block:1px solid var(--rule);border-inline-start:3px solid var(--amber-mark);}
+.statement blockquote{
+  margin:0;padding:22px 0 18px 22px;font-family:var(--display);font-weight:500;
+  font-size:clamp(19px,2.5vw,27px);line-height:1.28;letter-spacing:-0.02em;max-width:30ch;
+}
+.statement figcaption{
+  display:flex;flex-wrap:wrap;gap:4px 20px;padding:0 0 14px 22px;
+  font-family:var(--mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);
+}
+.statement figcaption span:not(:last-child)::after{content:" ·";color:var(--rule-strong);margin-inline-start:20px;}
+
+/* ---------- reading lists ---------- */
+.reading{margin:22px 0 0;border:1px solid var(--rule);background:var(--surface);}
+.reading-head{
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 14px;
+  padding:11px 16px;background:var(--surface-2);border-bottom:1px solid var(--rule);
+  font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-2);
+}
+.reading-head .tot{margin-inline-start:auto;color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums;}
+.rlist{list-style:none;margin:0;padding:0;}
+.rlist li{display:grid;grid-template-columns:52px 1fr;gap:0 14px;padding:13px 16px;border-top:1px solid var(--rule);}
+.rlist li:first-child{border-top:0;}
+.rlist .mins{
+  font-family:var(--mono);font-size:12px;font-variant-numeric:tabular-nums;color:var(--ink);
+  text-align:end;padding-top:2px;white-space:nowrap;
+}
+.rlist .mins::after{content:" min";font-size:10px;color:var(--ink-3);letter-spacing:0.04em;}
+.kind{
+  display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:0.13em;text-transform:uppercase;
+  color:var(--ink-3);border:1px solid var(--rule-strong);padding:1px 5px;margin-inline-end:8px;
+  vertical-align:2px;border-radius:2px;
+}
+.rlist .cite{font-size:16px;line-height:1.45;display:block;}
+.rlist .cite b{font-family:var(--display);font-weight:600;}
+.rlist .guide{display:block;margin-top:5px;font-size:15px;line-height:1.5;color:var(--ink-2);}
+.rlist .guide::before{content:"↳ ";color:var(--amber);}
+.further{
+  padding:12px 16px;border-top:1px solid var(--rule);background:var(--surface-2);
+  font-size:14.5px;line-height:1.55;color:var(--ink-2);
+}
+.further b{font-family:var(--mono);font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-3);font-weight:500;display:block;margin-bottom:4px;}
+.gapnote{
+  margin:18px 0 0;padding:14px 16px;border:1px dashed var(--rule-strong);background:transparent;
+  font-size:15.5px;color:var(--ink-2);max-width:var(--prose);
+}
+.gapnote b{font-family:var(--display);font-weight:600;color:var(--ink);}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-in">
+    <div class="mark">TWENTY-TWO<span>·</span>WORDS</div>
+    <div class="eyebrow">Course specification · draft v1 · 2 Sep 2026</div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">A 25-hour course in AI safety communications</div>
+
+    <figure class="statement">
+      <blockquote>Mitigating the risk of extinction from AI should be a global priority alongside other societal-scale risks such as pandemics and nuclear war.</blockquote>
+      <figcaption>
+        <span>22 words</span><span>30 May 2023</span><span>Center for AI Safety</span><span>Hinton · Bengio · Altman · Hassabis · Amodei</span>
+      </figcaption>
+    </figure>
+
+    <h1>Twenty-Two Words</h1>
+    <p class="hook">The most effective piece of communication this field has ever produced was one sentence with <b>no mechanism, no timeline and no policy ask</b> — engineered so that signing was cheap and refusing was expensive. This course is about why that worked, why the open letter published eight weeks earlier did not, and how to build the next one.</p>
+    <p class="hook" style="margin-top:14px">You arrive with a source document you did not write and an audience you have not met. You leave having <b>published one accurate piece in public</b>, having had it attacked by seven peers and rebuilt it.</p>
+
+    <dl class="ledger">
+      <div><dt>Length</dt><dd>25 hours</dd></div>
+      <div><dt>Structure</dt><dd>5 units</dd></div>
+      <div><dt>Pace</dt><dd>5 days or 5 weeks</dd></div>
+      <div><dt>Cohort</dt><dd>8 people</dd></div>
+      <div><dt>Cost</dt><dd>Free</dd></div>
+    </dl>
+
+    <div class="cta-row">
+      <a class="btn" href="#units">Read the five units</a>
+      <a class="btn ghost" href="#why">Why this exists</a>
+      <span class="cta-note">Prerequisite: BlueDot AGI Strategy, or equivalent</span>
+    </div>
+  </div>
+
+  <section class="tight" id="leave">
+    <div class="sec-head"><h2>What you leave with</h2><span class="eyebrow">Objectives as deliverables</span></div>
+    <p class="lede">Not "understand the media landscape." Five things that exist, that other people can read, and that you can put in front of someone who might hire you.</p>
+    <ol class="deliverables">
+      <li><span class="n">01</span><span><b>An audience brief</b> for one named person — a job title, an outlet, a committee. Not “the public.”</span></li>
+      <li><span class="n">02</span><span><b>A one-sentence claim</b>, template-constrained, that survives cross-examination.</span></li>
+      <li><span class="n">03</span><span><b>A published piece</b> in one of three formats, with a real news peg.</span></li>
+      <li><span class="n">04</span><span><b>A red-team memo</b> attacking your own framing — and the revision that answers it.</span></li>
+      <li><span class="n">05</span><span><b>A created-role pitch</b>, a 30-day action, and a 12-month plan with a written stop condition.</span></li>
+    </ol>
+  </section>
+
+  <section id="chain">
+    <div class="sec-head"><h2>One artifact, carried through five units</h2><span class="eyebrow">The spine</span></div>
+    <p class="lede">The courses this one is modelled on work because a single artifact runs through every unit. Yours starts in week one and is never finished until it is public.</p>
+    <div class="chain">
+      <div class="step"><span class="u">Unit 1</span><span class="act">Pick a source document. Name one audience.</span><span class="out">Audience brief</span></div>
+      <div class="step"><span class="u">Unit 2</span><span class="act">Compress it to one sentence.</span><span class="out">The claim + message box</span></div>
+      <div class="step"><span class="u">Unit 3</span><span class="act">Build it.</span><span class="out">Draft artifact</span></div>
+      <div class="step graded"><span class="u">Unit 4</span><span class="act">Have it attacked. Rebuild it.</span><span class="out">Red-team memo + revision — the graded object</span></div>
+      <div class="step"><span class="u">Unit 5</span><span class="act">Ship it.</span><span class="out">Published piece + career plan</span></div>
+    </div>
+    <p class="chain-note">The revision is graded, not the draft. Peer feedback on writing runs g = 0.91 against no feedback (Huisman et al. 2018); the gain lives in the response to it.</p>
+  </section>
+
+  <section id="units">
+    <div class="sec-head"><h2>The five units</h2><span class="eyebrow">3h prep + 2h live, each</span></div>
+    <p class="lede">Every reading carries a time budget and a note saying what to look at. The number is <b>how long to spend on it</b>, not how long the document is &mdash; a 60-page report with a 15-minute budget means read the executive summary and stop. Three tiers: Core is required, Further is for the session you want to go deeper on, Maybe is there so the list has somewhere to overflow to.</p>
+
+    <article class="unit">
+      <div class="rail">
+        <div class="num">01</div>
+        <div class="budget"><b>Core reading</b> 110 min<br><b>Live</b> 120 min<br><b>Artifact out</b> Audience brief</div>
+      </div>
+      <div>
+        <h3>There is no general public</h3>
+        <p class="promise">You will stop writing to nobody.</p>
+        <p>The polling proves it in a way that is uncomfortable for this field. Pew, April 2025: optimism splits 17% public against 56% of AI experts — but on <em>wanting more control over AI</em> the two groups are effectively identical, 55% against 57%. The public is not the obstacle people assume it is.</p>
+        <p>Then the wording problem. AIPI's June 2026 poll is really an experiment: support for oversight ranges <b>59–78% across eight framings of the same question</b>, and one data-centre question moves 19 points when only the alternative changes. And the frame that actually governs coverage in 2026 is <b>cybersecurity, not extinction</b> — students trained to argue about extinction are being trained for 2023.</p>
+        <div class="slot case"><span class="lbl">Seminar case</span><p class="q">The polling itself. <b>The field spends heavily on persuasion and global attitudes have not moved since 2023. What is the honest claim a communicator can make about what they change?</b></p></div>
+        <div class="slot"><span class="lbl">Roleplay</span><p>The pitch meeting. Two students pitch a story to a desk editor; the editor kills it. Everyone else is the news meeting, and votes.</p></div>
+      <div class="reading">
+        <div class="reading-head"><span>Core reading</span><span class="tot">110 min</span></div>
+        <ol class="rlist">
+        <li><span class="mins">35</span><div><span class="cite"><span class="kind">Poll</span><b>Pew Research Center</b>, <em>How the U.S. Public and AI Experts View Artificial Intelligence</em> (3 Apr 2025). n=5,410 public, n=1,013 experts.</span><span class="guide">Read the key findings and the &ldquo;who we defined as AI experts&rdquo; box, then open the topline PDF and find one question whose wording surprises you. Do not read for the 17%-against-56% optimism gap. Read for the 55%-against-57% agreement buried underneath it. Note Pew&rsquo;s own caveat that the expert sample is unweighted.</span></div></li>
+        <li><span class="mins">25</span><div><span class="cite"><span class="kind">Poll</span><b>AI Policy Institute</b>, <em>The AI Safety Majority</em> (June 2026). n=1,007.</span><span class="guide">All six sections. This is not really a poll, it is a wording experiment: the same underlying question returns 59% to 78% support depending on framing, and one data-centre question moves 19 points when only the alternative changes. Bring the range to the session, not the number.</span></div></li>
+        <li><span class="mins">15</span><div><span class="cite"><span class="kind">Poll</span><b>Ipsos</b>, <em>Global Attitudes on AI 2026: The Wonder vs Worry Divide Deepens</em> (2 Jun 2026). 32 countries.</span><span class="guide">Summary page only. The finding that matters is the one the summary underplays: attitudes have barely moved since 2023, after three years of intense communication by every side. Sit with what that implies about your own leverage before you write anything.</span></div></li>
+        <li><span class="mins">15</span><div><span class="cite"><span class="kind">Paper</span><b>Pauketat, Ladak &amp; Anthis</b>, <em>Prolific Data May Misestimate Some AI Attitudes</em>, Sentience Institute (Feb 2026).</span><span class="guide">Summary and Table 2 only. Ipsos and Prolific samples disagree on 82% of items, with Prolific systematically understating risk perception &mdash; and a large share of published AI-attitudes research runs on Prolific. This is where you learn to ask where a number came from before quoting it.</span></div></li>
+        <li><span class="mins">20</span><div><span class="cite"><span class="kind">Article</span><b>Dan Milmo</b>, <em>AI models have been going rogue in tests. How worried should we be?</em>, The Guardian, 5 Aug 2026 &mdash; read with his straight news story on the same AISI results, published the same day.</span><span class="guide">The news/explainer pair. One piece reports what happened; the sibling answers the question the reader actually has. Mark every sentence that could only appear in one of the two. That line is the difference between reporting and explaining, and you will spend your career on the wrong side of it if you cannot see it.</span></div></li>
+        </ol>
+        <div class="further"><b>Further &amp; Maybe</b> YPCCC, <em>Global Warming&rsquo;s Six Americas</em> &mdash; and take the SASSY segmentation quiz yourself (20 min) &middot; Reuters Institute, <em>Digital News Report 2026</em>, executive summary (25 min; assign in full if the cohort is media-facing) &middot; Gerrit De Vynck, <em>Chatbots got safer but will still role-play self-harm with users</em>, Washington Post, 31 Aug 2026 &mdash; the whole craft lesson is in the headline&rsquo;s concessive clause, &ldquo;got safer but&rdquo; (15 min).</div>
+      </div>
+
+      </div>
+    </article>
+
+    <article class="unit">
+      <div class="rail">
+        <div class="num">02</div>
+        <div class="budget"><b>Core reading</b> 120 min<br><b>Live</b> 120 min<br><b>Artifact out</b> The claim</div>
+      </div>
+      <div>
+        <h3>Why information does not change minds</h3>
+        <p class="promise">You will stop explaining.</p>
+        <p>The deficit model, Kahan on identity-protective reasoning, Slovic on the affect heuristic, psychic numbing, the finite pool of worry. Then the two reversals, because this field still trades in the pre-reversal versions:</p>
+        <p><b>The backfire effect largely did not replicate</b> — Nyhan's own 2021 retreat in PNAS, alongside Wood &amp; Porter's ~10,000-subject null. Correcting the record usually works. And <b>fear appeals do not reliably backfire</b> (Tannenbaum et al. 2015). The moderator is efficacy: fear plus a doable action works, fear without one does not. That cuts directly against the “doom framing repels people” folk wisdom, and it is taught as a contested empirical question with the evidence on the table.</p>
+        <div class="slot case"><span class="lbl">Seminar case</span><p class="q">The CAIS extinction statement against the FLI pause letter — same movement, same season, opposite designs. <b>The statement with no ask aged better than the letter with an ask. Does that mean asks are a mistake, or that this ask was? Write the ask the pause letter should have made.</b></p></div>
+        <div class="slot"><span class="lbl">Roleplay</span><p>Select-committee witness. One student testifies; two members are hostile from opposite directions — one thinks it is hype, one thinks it is not urgent enough.</p></div>
+      <div class="reading">
+        <div class="reading-head"><span>Core reading</span><span class="tot">120 min</span></div>
+        <ol class="rlist">
+        <li><span class="mins">10</span><div><span class="cite"><span class="kind">Paper</span><b>Dan Kahan</b>, <em>Fixing the communications failure</em>, <em>Nature</em> 463 (2010).</span><span class="guide">Two pages. The cleanest statement of why more and better information does not settle a contested risk question. Read it first so everything after it has somewhere to attach.</span></div></li>
+        <li><span class="mins">35</span><div><span class="cite"><span class="kind">Paper</span><b>Hornsey &amp; Fielding</b>, <em>Attitude roots and Jiu Jitsu persuasion</em>, <em>American Psychologist</em> (2017).</span><span class="guide">If the cohort reads one paper all course, this is it. The move is to stop arguing with the stated objection and find the attitude root underneath it, then use that root rather than fight it. Come to the session with the root beneath the three objections you personally hear most.</span></div></li>
+        <li><span class="mins">25</span><div><span class="cite"><span class="kind">Paper</span><b>Kim Witte</b>, <em>Putting the fear back into fear appeals: the extended parallel process model</em>, <em>Communication Monographs</em> (1992).</span><span class="guide">Read the model, skim the derivation. This is the source of Rule 1. Fear plus a doable action changes behaviour; fear without one produces defensive avoidance. Almost every piece of AI risk writing you admire fails this test at the last paragraph.</span></div></li>
+        <li><span class="mins">20</span><div><span class="cite"><span class="kind">Paper</span><b>Hart &amp; Feldman</b>, <em>Threat Without Efficacy? Climate Change on U.S. Network News</em>, <em>Science Communication</em> (2014).</span><span class="guide">The empirical companion to Witte: an entire beat, measured, and found to supply threat without efficacy for years. Read it as the audit you are about to run on your own field.</span></div></li>
+        <li><span class="mins">20</span><div><span class="cite"><span class="kind">Paper</span><b>Brendan Nyhan</b>, <em>Why the backfire effect does not explain the durability of political misperceptions</em>, <em>PNAS</em> (2021).</span><span class="guide">Nyhan retreating from his own most-cited finding. Skim <em>When Corrections Fail</em> (2010) first so you know what is being withdrawn. The practical upshot reverses what this field repeats to itself: correcting the record usually works. It just does not move the policy attitude attached to the fact.</span></div></li>
+        <li><span class="mins">10</span><div><span class="cite"><span class="kind">Artifact</span><b>CAIS</b>, <em>Statement on AI Risk</em> (30 May 2023) and <b>FLI</b>, <em>Pause Giant AI Experiments</em> (22 Mar 2023).</span><span class="guide">Read side by side as designed objects, not as arguments. One asks for nothing and therefore cannot fail; the other names a six-month deadline that visibly passed. Count the words in each. Note which one you can quote from memory.</span></div></li>
+        </ol>
+        <div class="further"><b>Further &amp; Maybe</b> Kahan et al., <em>Cultural cognition of the risks and benefits of nanotechnology</em>, <em>Nature Nanotechnology</em> (2009) &mdash; the closest experimental analogue to AI that exists (20 min) &middot; Kahan et al., <em>The polarizing impact of science literacy and numeracy</em>, <em>Nature Climate Change</em> (2012) (20 min) &middot; Slovic, <em>Perception of Risk</em>, <em>Science</em> 236 (1987) &mdash; then plot AI on the dread/unknown space yourself (30 min) &middot; Wood &amp; Porter, <em>The Elusive Backfire Effect</em>, <em>Political Behavior</em> (2019) &mdash; abstract, design, null result (10 min) &middot; Tannenbaum et al. (2015), abstract and moderator table only (15 min) &middot; Sturgis &amp; Allum, <em>Re-Evaluating the Deficit Model</em> (2004) (10 min).</div>
+      </div>
+
+      </div>
+    </article>
+
+    <article class="unit">
+      <div class="rail">
+        <div class="num">03</div>
+        <div class="budget"><b>Core reading</b> 120 min<br><b>Live</b> 120 min<br><b>Artifact out</b> Draft, on camera</div>
+      </div>
+      <div>
+        <h3>Build the thing</h3>
+        <p class="promise">You will make something this week, badly, and that is the point.</p>
+        <p>The ecosystem as it actually is. One person — <em>Species | Documenting AGI</em> — and one funded video arm, 80,000 Hours' <em>AI In Context</em>, each reached about 420,000 subscribers inside a year, with individual videos at 8–11 million views: more reach than the entire prior canon. Meanwhile ControlAI, PauseAI, CAIS and MIRI publish constantly and reach almost nobody. Rob Miles, who carried the field for eight years, is semi-dormant at 171,000.</p>
+        <p>So the operational advice is blunt, and the course gives it: <b>do not start a podcast.</b> It is the most oversupplied, least differentiated format in the field — Cognitive Revolution runs about $23 per view against Doom Debates' $1. The two formats with demonstrated breakout potential at low capital are news-pegged analysis with a calibration brand, and narrated scenario storytelling.</p>
+        <div class="slot case"><span class="lbl">Seminar case</span><p class="q">Demonstration-as-communication. Anthropic wrote “we have not seen evidence of agentic misalignment in real deployments” and was covered as <em>AI blackmails engineer</em>; METR's chart survived intact. <b>Rewrite the headline finding so the accurate story is the easiest one to write. Then say what that rewrite costs you.</b></p></div>
+        <div class="slot"><span class="lbl">Roleplay</span><p>The system card under cross-examination. Two students defend a translation of an eval result to the newsroom, then to the lab's legal team.</p></div>
+      <div class="reading">
+        <div class="reading-head"><span>Core reading</span><span class="tot">120 + 40 doing min</span></div>
+        <ol class="rlist">
+        <li><span class="mins">20</span><div><span class="cite"><span class="kind">Video</span><b>Rob Miles</b>, <em>AI &ldquo;Stop Button&rdquo; Problem</em> (Computerphile, 20:00, 1,404,565 views).</span><span class="guide">The escalating-repair structure: the viewer proposes the fix, the video breaks it, repeat until their intuitions are exhausted. The most transferable technique in the corpus. Watch it twice &mdash; once for the argument, once with a stopwatch on how long he lets you be wrong before correcting you.</span></div></li>
+        <li><span class="mins">35</span><div><span class="cite"><span class="kind">Video</span><b>AI In Context</b> (80,000 Hours), <em>We&rsquo;re Not Ready for Superintelligence</em> (34:11, 11,036,958 views).</span><span class="guide">The narrated-scenario format that broke the field&rsquo;s reach ceiling. Watch for the launch reasoning as much as the film: they led with AI 2027 so that a wide audience would have a reason to watch. A distribution decision driving a content decision, in that order.</span></div></li>
+        <li><span class="mins">20</span><div><span class="cite"><span class="kind">Video</span><b>3Blue1Brown</b>, <em>Transformers, the tech behind LLMs</em> (11,022,929 views).</span><span class="guide">Not a safety video. Assigned as the benchmark for visual explanation, with one question to answer in the session: why has nothing in the safety corpus visualised a mechanism this well?</span></div></li>
+        <li><span class="mins">30</span><div><span class="cite"><span class="kind">Podcast</span><b>Rob Miles on Doom Debates</b>, 23 Aug 2025.</span><span class="guide">The field&rsquo;s best explainer describing his own method &mdash; that his work &ldquo;does not need to ever include saying a sentence which is false&rdquo;, the missing-mood problem, and why slogans defeat him. The only sustained first-person account of craft anywhere in this field. Take notes as if it were a lecture, because it is.</span></div></li>
+        <li><span class="mins">15</span><div><span class="cite"><span class="kind">Brief</span><b>Gabriel Weil</b>, <em>Don&rsquo;t Let AI Developers Hire Their Own Referees</em>, AI Frontiers.</span><span class="guide">The policy brief that fits in a browser tab: a named conflict of interest, one concrete alternative mechanism, a real-world precedent, a named bill. This is your template for Unit 3&rsquo;s brief. Copy the skeleton, not the topic.</span></div></li>
+        <li><span class="mins">20 + 40</span><div><span class="cite"><span class="kind">Tool</span><b>COMPASS</b>, <em>The Message Box</em> &mdash; read the tool page, download the workbook, fill three boxes.</span><span class="guide">Three boxes, three different audiences, same underlying argument. If two of your boxes come out the same, you have not segmented, you have retyped. Bring all three; the session works on the one you like least.</span></div></li>
+        </ol>
+        <div class="further"><b>Further &amp; Maybe</b> Kurzgesagt, <em>A.I. &mdash; Humanity&rsquo;s Final Invention?</em> (12,313,764) against their <em>AI Slop Is Destroying The Internet</em> (10,716,150) &mdash; study the restraint, especially the question mark (20 min) &middot; Species, <em>MIT Explains the 12 Possible Endings for AI</em> (~8.1M) &mdash; one person beat 80,000 Hours to the same source document by six weeks (15 min) &middot; ControlAI&rsquo;s YouTube upload list &mdash; 783 videos, 8.7K subscribers, <em>Connor Leahy on BBC News</em> at 927 views. Assigned as a <em>list</em>, not a video: ask what audience any single item was made for (10 min) &middot; One full episode of Hard Fork, any recent week &mdash; the register in which most people actually meet AI risk (60 min).</div>
+      </div>
+      <div class="gapnote"><b>The gap, assigned as a set.</b> EGO&rsquo;s <em>L&rsquo;horreur existentielle de l&rsquo;usine &agrave; trombones</em> &mdash; 6,248,139 views, the largest native non-English AI-risk video anywhere &mdash; alongside a Bilibili &#12304;&#20013;&#37197;&#12305; volunteer fan-dub running at 823 to 23,637 plays, and the auto-dubbed French track of <em>We&rsquo;re Not Ready for Superintelligence</em>, which shares its English view counter. Three distribution models, three different relationships to trust, and a field that has invested in none of them. Hebrew, Arabic and Japanese are essentially zero.</div>
+
+      </div>
+    </article>
+
+    <article class="unit">
+      <div class="rail">
+        <div class="num">04</div>
+        <div class="budget"><b>Core reading</b> 115 min<br><b>Live</b> 120 min<br><b>Artifact out</b> Revision <em>(graded)</em></div>
+      </div>
+      <div>
+        <h3>Have it attacked</h3>
+        <p class="promise">You will find out what your piece looks like to someone who wants it to fail.</p>
+        <p>The anchor is <b>SB 1047 → SB 53</b> — the only case in the field's history containing every element of a real campaign: a bill, a false-claim campaign, a fact-check that failed, polling that did not matter, coalition defection, a veto message that conceded everything and granted nothing, and a sequel that passed by surrendering the enforcement architecture. It is also the only case with a legible scoreboard.</p>
+        <p>Then, taught immediately after so students read it while still sympathetic: the opposition's playbook. The Techno-Optimist Manifesto's moral inversion — <em>any deceleration of AI will cost lives… a form of murder</em> — is better political writing than anything the movement it attacks has produced, and students should have to sit with that.</p>
+        <div class="slot case"><span class="lbl">Seminar case</span><p class="q">SB 1047. <b>The safety side was right about the bill's contents, had 60–78% public support across four independent pollsters, and lost. What should they have done instead of fact-checking?</b></p></div>
+        <div class="slot"><span class="lbl">Roleplay</span><p>The crisis war room — a bad model release at 4pm on a Friday. Comms lead, a researcher who wants everything disclosed, counsel, and a reporter with an hour's deadline. Optional second: the OpenAI board crisis of November 2023. <b>Draft the best available statement for 17 November in under 150 words.</b></p></div>
+      <div class="reading">
+        <div class="reading-head"><span>Core reading</span><span class="tot">120 min</span></div>
+        <ol class="rlist">
+        <li><span class="mins">15</span><div><span class="cite"><span class="kind">Op-ed</span><b>Eliezer Yudkowsky</b>, <em>Pausing AI Developments Isn&rsquo;t Enough. We Need to Shut it All Down</em>, TIME, 29 Mar 2023.</span><span class="guide">The canonical failure. The strongest available platform, given to the field&rsquo;s most-identified figure, and the only paragraph that survived into public memory was the one about airstrikes on rogue datacentres. In a general-audience op-ed you do not get to choose which paragraph is the piece &mdash; the most extreme sentence is the piece.</span></div></li>
+        <li><span class="mins">35</span><div><span class="cite"><span class="kind">Paper</span><b>Bender, Gebru, McMillan-Major &amp; Mitchell</b>, <em>On the Dangers of Stochastic Parrots</em>, FAccT &rsquo;21.</span><span class="guide">The other tradition. A student who cannot state this paper&rsquo;s argument without sneering is not equipped to talk to half the room. You will be asked to state it in the session, and you will be graded on whether its authors would recognise your summary.</span></div></li>
+        <li><span class="mins">35</span><div><span class="cite"><span class="kind">Paper</span><b>Gebru &amp; Torres</b>, <em>The TESCREAL bundle</em>, <em>First Monday</em> (2024).</span><span class="guide">Long. Read the argument closely, skim the genealogy. This is the most sustained available account of why a large, serious constituency reads AI safety as an ideology rather than a field. Disagreeing with it is allowed; not having read it is not.</span></div></li>
+        <li><span class="mins">20</span><div><span class="cite"><span class="kind">Paper</span><b>Bengio, Hinton, Yao, Song et al.</b>, <em>Managing extreme AI risks amid rapid progress</em>, <em>Science</em> (2024).</span><span class="guide">The consensus-committee register at its most disciplined. Highlight every hedge, then ask what each hedge is doing &mdash; some are honesty, some are the price of a signature. Learning to tell them apart is most of institutional writing.</span></div></li>
+        <li><span class="mins">15</span><div><span class="cite"><span class="kind">Manifesto</span><b>Marc Andreessen</b>, <em>The Techno-Optimist Manifesto</em> (2023).</span><span class="guide">Read last, once you have sympathy for the safety side, and read it as writing. Its moral inversion &mdash; that deceleration &ldquo;will cost lives&hellip; a form of murder&rdquo; &mdash; is better political prose than anything the movement it attacks has produced. Sit with that rather than resolving it.</span></div></li>
+        </ol>
+        <div class="further"><b>Further &amp; Maybe</b> Narayanan &amp; Kapoor, <em>AI existential risk probabilities are too unreliable to inform policy</em> (AI Snake Oil) &mdash; the model for internal criticism that cannot be waved away as a values disagreement (20 min) &middot; Narayanan &amp; Kapoor, <em>AI as Normal Technology</em>, Knight First Amendment Institute (2025) &mdash; the venue choice <em>is</em> the argument (35 min) &middot; <em>Fears of AI-induced armageddon are overdone</em>, The Economist By Invitation, 23 Aug 2026 (10 min) &middot; FrameWorks Institute, <em>Communicating the Social Implications of AI</em> (10 Aug 2026) &mdash; assigned as an object of analysis, not as doctrine: it is written entirely in the near-term lane (30 min) &middot; Mystery AI Hype Theatre 3000, <em>About That &lsquo;Dangerous Capabilities&rsquo; Fanfiction</em>, with Better Offline, <em>The AI Industry Must Stop Doom Trolling w/ Cal Newport</em> &mdash; then write the 500-word reply this field has never published (60 min).</div>
+      </div>
+
+      </div>
+    </article>
+
+    <article class="unit">
+      <div class="rail">
+        <div class="num">05</div>
+        <div class="budget"><b>Core reading</b> 90 min<br><b>Live</b> 120 min<br><b>Artifact out</b> Published + plan</div>
+      </div>
+      <div>
+        <h3>Ship it, and get in</h3>
+        <p class="promise">You will publish, and you will find out that almost nobody is hiring.</p>
+        <p>The paradox, stated without spin. Across roughly twenty core organisations checked on 2 September 2026 there were <b>fewer than a dozen genuinely comms-shaped open roles worldwide</b> — METR, Apollo, OpenAI, UK AISI, Encode and Constellation at zero. The technical evaluation labs do not employ communicators, and a course implying otherwise is lying to its learners. Yet a February 2026 survey of 59 AI safety leaders ranked advocacy and policy engagement the <em>most</em> under-resourced parts of the field, with technical safety tenth of fourteen, and named talent rather than funding as the binding constraint.</p>
+        <p>So the on-ramp is not “apply to open roles.” It is <b>make the role exist, or be the obvious hire when one appears</b> — which is how the CAIS, Epoch and MIRI comms functions actually came into being.</p>
+        <div class="slot case"><span class="lbl">Seminar case</span><p class="q">Ozone and the Montreal Protocol against the anti-GMO backlash, taught as a pair. Same instruments — vivid naming, a villain industry, precaution over proof. One was right and won in two years; one was wrong and won for thirty. <b>From inside a campaign, is there any way to tell which one you are in — and what evidence would make you stop?</b></p></div>
+        <div class="slot"><span class="lbl">Roleplay</span><p>The created-role pitch. Each student pitches a role that does not exist to a skeptical executive director, with their published artifact as the evidence.</p></div>
+      <div class="reading">
+        <div class="reading-head"><span>Core reading</span><span class="tot">110 min</span></div>
+        <ol class="rlist">
+        <li><span class="mins">40</span><div><span class="cite"><span class="kind">Scenario</span><b>Kokotajlo, Alexander, Larsen, Lifland &amp; Dean</b>, <em>AI 2027</em> (3 Apr 2025).</span><span class="guide">Read the packaging, not just the forecast. A month-by-month narrative, five separate published forecast supplements, a summary, a PDF, audio and video versions, and Spanish, French and Italian translations. Whatever you think of the prediction, every one of those is a deliberate decision about a different audience. This is the state of the art in this field and it is the bar for your own capstone.</span></div></li>
+        <li><span class="mins">20</span><div><span class="cite"><span class="kind">Post</span><b>Eugene Yiga</b>, <em>Why AI safety is losing the communications war</em>, EA Forum, 31 Aug 2026.</span><span class="guide">The quantified version of the argument this course rests on: 1,416 research grants against 267 for communications, roughly three researchers per advocate, and 84 of 97 European Commission AI meetings going to corporate interests against twelve for civil society. Check two of its numbers yourself before the session.</span></div></li>
+        <li><span class="mins">15</span><div><span class="cite"><span class="kind">Survey</span><b>Centre for Effective Altruism</b>, <em>Survey of AI safety leaders on x-risk, AGI timelines and&hellip;</em>, EA Forum (Feb 2026). n=59.</span><span class="guide">The field&rsquo;s own leadership ranking advocacy and policy engagement as the most under-resourced things it does, with technical safety tenth of fourteen, and naming talent rather than money as the binding constraint. Hold it next to the fact that almost nobody is hiring.</span></div></li>
+        <li><span class="mins">15</span><div><span class="cite"><span class="kind">Post</span><b>MIRI</b>, <em>Communications in Hard Mode</em>.</span><span class="guide">The accuracy bar your capstone is graded against: accuracy first, clarity second, reach not at all. Read it as the standard, then go back to your Unit 3 artifact and find the sentence that fails it.</span></div></li>
+        <li><span class="mins">20</span><div><span class="cite"><span class="kind">Paper</span><b>Fernbach et al.</b>, <em>Extreme opponents of genetically modified foods know the least but think they know the most</em>, <em>Nature Human Behaviour</em> (2019).</span><span class="guide">The closing warning, and the reason the ozone/GMO pair is taught last. A precautionary campaign can be confident, coordinated, morally serious and wrong for thirty years. Read this and then answer the session question: what evidence would make you stop?</span></div></li>
+        </ol>
+        <div class="further"><b>Further &amp; Maybe</b> Aschenbrenner, <em>Situational Awareness</em> (June 2024) &mdash; the manifesto that changed an elite conversation without persuading a single critic; assign against AI 2027 and ask which one a Senate staffer finished (40 min) &middot; Michaels &amp; Jones, <em>Doubt Is Their Product</em>, <em>Scientific American</em> (2005) (15 min) &middot; Bulletin of the Atomic Scientists, the 2026 Doomsday Clock statement &mdash; 85 seconds, set 27 Jan 2026, read as a designed artefact rather than a finding (10 min) &middot; Sagan, <em>Nuclear War and Climatic Catastrophe</em>, <em>Foreign Affairs</em> (1983) (30 min).</div>
+      </div>
+
+      </div>
+    </article>
+  </section>
+
+  <section id="session">
+    <div class="sec-head"><h2>The two-hour session</h2><span class="eyebrow">Run sheet · every unit</span></div>
+    <p class="lede">Adopted from BlueDot's facilitator model, with their escape hatch kept. Session plans ship as documents with live tables, timer chips, and two columns — participants and facilitator — with per-block timings.</p>
+    <div class="runsheet">
+      <div class="row"><div class="t">0:00–0:20</div><div class="d"><b>Learnings and questions</b><span>What landed, what broke, what nobody understood.</span></div></div>
+      <div class="row chip"><div class="t">0:20–1:00</div><div class="d"><b>Seminar</b><span>Three sharp guiding questions, anchored on the unit's case. Targeted open questions, named at a specific person — never “does anyone have any thoughts?”</span></div></div>
+      <div class="row"><div class="t">1:00–1:05</div><div class="d"><b>Break</b><span></span></div></div>
+      <div class="row chip"><div class="t">1:05–1:45</div><div class="d"><b>Roleplay or structured critique</b><span>Two students take an adversarial role; everyone else is the deciding body. 10 min prep · 3 min pitch · 15 min questions · 5 min deliberation · debrief.</span></div></div>
+      <div class="row"><div class="t">1:45–1:55</div><div class="d"><b>Reflection</b><span>One action you will take.</span></div></div>
+    </div>
+    <blockquote class="pull">“If your seminar is going well, you are encouraged to modify or ditch the subsequent structured activities.”<cite>BlueDot Impact facilitator guidance, adopted verbatim</cite></blockquote>
+  </section>
+
+  <section id="critique">
+    <div class="sec-head"><h2>The critique protocol</h2><span class="eyebrow">Why the course works</span></div>
+    <p class="lede">About a third of feedback interventions actively <em>harm</em> performance when attention moves to the self rather than the task (Kluger &amp; DeNisi 1996). So critique is scripted, and this is the script.</p>
+    <ol class="protocol">
+      <li><b>Read back the claim.</b> The critic states in one sentence what they think the piece argues. If that does not match the author's Unit 2 sentence, the diagnosis is finished — everything else is downstream.</li>
+      <li><b>Name the audience test.</b> Would the Unit 1 named audience read past the first paragraph? Where exactly did they stop?</li>
+      <li><b>One structural note, one line-level note.</b> No more.</li>
+      <li><b>No praise sandwich.</b> Never “you are”; always “the piece does.”</li>
+      <li><b>The author does not reply.</b> They take notes, and respond in the revision.</li>
+    </ol>
+  </section>
+
+  <section id="why">
+    <div class="sec-head"><h2>Why this course exists</h2><span class="eyebrow">The evidence</span></div>
+    <p class="lede">The field's leadership says communications is its most under-resourced function. Its funding and its job listings say something else. The gap between those two facts is the whole argument for this course.</p>
+
+    <div class="figure">
+      <h4>Where the money goes</h4>
+      <div class="sub">AI safety grants by tag · grantmaking.ai · ~6,900 entries</div>
+      <div class="bars">
+        <div class="bar" tabindex="0"><span class="k">Research</span><span class="track" data-share="1,416 grants — 65% of the four"><span class="fill" style="width:100%"></span></span><span class="v">1,416</span></div>
+        <div class="bar" tabindex="0"><span class="k">Communications</span><span class="track" data-share="267 grants — 12% of the four"><span class="fill" style="width:18.9%"></span></span><span class="v">267</span></div>
+        <div class="bar" tabindex="0"><span class="k">Education</span><span class="track" data-share="222 grants — 10% of the four"><span class="fill" style="width:15.7%"></span></span><span class="v">222</span></div>
+        <div class="bar" tabindex="0"><span class="k">Advocacy</span><span class="track" data-share="221 grants — 10% of the four"><span class="fill" style="width:15.6%"></span></span><span class="v">221</span></div>
+      </div>
+      <p class="src">Source: Eugene Yiga, “Why AI safety is losing the communications war,” EA Forum, 31 Aug 2026, citing the grantmaking.ai database. Counts are grant entries carrying each tag, not dollars. Checked 2026-09-02.</p>
+    </div>
+
+    <div class="stats">
+      <div class="s">
+        <div class="big">28 → 0</div>
+        <div class="cap">Courses listed in the field's own maintained catalogue, and how many are about communications, media, advocacy or public engagement.</div>
+        <div class="src">aisafety.com/courses · 2026-09-02</div>
+      </div>
+      <div class="s">
+        <div class="big">10 of 14</div>
+        <div class="cap">Where technical safety ranked when 59 AI safety leaders were asked which subfields need more resources. Advocacy and policy came first.</div>
+        <div class="src">CEA leaders survey, Feb 2026</div>
+      </div>
+      <div class="s">
+        <div class="big">&lt;12</div>
+        <div class="cap">Genuinely comms-shaped roles open across ~20 core organisations worldwide on one checked day.</div>
+        <div class="src">Verified against employer ATS boards · 2026-09-02</div>
+      </div>
+    </div>
+
+    <p class="lede" style="margin-top:26px">The sharpest single line in the research: <b>AIGS Canada's AI policy course ends by linking students to newspapers' op-ed submission guidelines instead of teaching them to write one.</b> The gap is real. It is not empty — Tarbell funds journalism fellowships, and writing appears as units inside governance courses — but nobody teaches the intersection.</p>
+  </section>
+
+  <section id="departures">
+    <div class="sec-head"><h2>Where this departs from the model</h2><span class="eyebrow">And why</span></div>
+    <p class="lede">Reading plus facilitated discussion is the right shape for a governance course. Communications is a performance skill; discussion alone produces graduates who can talk about communications.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>The model</th><th>This course</th><th>Because</th></tr></thead>
+        <tbody>
+          <tr><td>Reading + facilitated discussion</td><td>Production every unit, from week one</td><td>MOOC median completion is 12.6%, and weeks 1–2 are decisive</td></tr>
+          <tr><td>Draft submitted, then discussed</td><td>The revision is the graded object</td><td>Peer feedback on writing runs g = 0.91; the gain is in the response to it</td></tr>
+          <tr><td>Free-text exercises the facilitator reads</td><td>Engineered rubric + scripted critique protocol</td><td>Peer grades land within 10% of staff 65.5% of the time — only with engineered rubrics</td></tr>
+          <tr><td>~20–25% acceptance</td><td>Lower selectivity, four-tier ladder</td><td>Select for people who will ship, not for credentials</td></tr>
+          <tr><td>Curriculum is a link list</td><td>We author what we can, and publish exercises CC BY</td><td>AIGS died with 108 of its 111 links belonging to other people</td></tr>
+          <tr><td>Career tail: grants, incubator, alumni network</td><td>Career tail: a publication we run</td><td>We will not have $35M. Every graduate ships one public piece, and we run the place it appears.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="rules">
+    <div class="sec-head"><h2>Five rules, if a graduate remembers nothing else</h2><span class="eyebrow">The takeaway</span></div>
+    <ol class="rules">
+      <li><span><b>Never ship a threat without an efficacy claim</b> — and the efficacy claim must be specific and true.</span></li>
+      <li><span><b>Give the number and the range; say what would change your mind.</b> Verbal hedging costs more credibility than honest uncertainty does.</span></li>
+      <li><span><b>Segment, or you are writing to nobody.</b> One message box per audience. “The general public” is not an audience.</span></li>
+      <li><span><b>Correct the record plainly — and do not expect the corrected fact to move the policy attitude.</b> They are different variables.</span></li>
+      <li><span><b>Make the harm identifiable.</b> Eight billion is not a persuasive number; one person is.</span></li>
+    </ol>
+  </section>
+
+  <section id="before">
+    <div class="sec-head"><h2>Before this ships</h2><span class="eyebrow">Open, not hidden</span></div>
+    <p class="lede">A course about communication cannot carry a stale date on its own homepage. These are the things that are not yet verified, listed here rather than buried.</p>
+    <ul class="check">
+      <li>Clear the 12-item verification queue in the case-study research — SB 53's signing date, bestseller ranks, FEC filings. Nothing unverified goes into teaching materials.</li>
+      <li>Re-run the “does this course already exist” check with working search. It ran with the search budget exhausted, so absence is weakly evidenced.</li>
+      <li>Verify the FT, WSJ and Bloomberg AI beat reporters. Both outlets block automated fetching.</li>
+      <li>Reach Gallup, YouGov and Eurobarometer for Unit 1's polling set.</li>
+      <li>Confirm the 21.4M-view <em>Diary of a CEO</em> figure. If it holds, the field's largest single audience event happened on a show nobody in the field programmes for — and that belongs in Unit 1.</li>
+      <li>Build the per-resource time budgets in from unit one, and put one source of truth behind every number on this page.</li>
+    </ul>
+  </section>
+
+  <div class="colophon">
+    <strong>Twenty-Two Words</strong> — a course specification, draft v1, 2 September 2026. Built on research across seven files and roughly 72,000 words, all figures checked 2026-09-02 unless stated.<br>
+    Curriculum structure adapted from <strong>BlueDot Impact</strong>'s course model under their stated reuse terms. Not affiliated with, endorsed by, or issuing certificates on behalf of BlueDot Impact.<br>
+    Course exercises to be published <strong>CC BY</strong>. Every external reading remains its authors'.<br>
+    Numbers on this page are only as good as their last check. Where a claim could not be verified, it says so.
+  </div>
+
+</main>
+
+</body>
+</html>
