@@ -1,4 +1,4 @@
-# Twenty-Two Words
+# AI Safety Communications Course
 
 A course specification for a **25-hour, five-unit course in AI safety communications** —
 for people entering AI safety comms, media, advocacy and public engagement rather than
